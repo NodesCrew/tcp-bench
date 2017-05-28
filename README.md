@@ -24,9 +24,9 @@
 
 ## Result of benchmark
 
-### Python 3.6.1 (default, Mar 30 2017) [GCC 4.2.1 Compatible Apple LLVM 8.1.0 (clang-802.0.38)] on darwin)
+##### Python 3.6.1 (default, Mar 30 2017) [GCC 4.2.1 Compatible Apple LLVM 8.1.0 (clang-802.0.38)] on darwin)
 
-   tokio - 6.19 sec [16152.81 RPS] 
-   libuv - 4.42 sec [22622.09 RPS]
- asyncio - 6.15 sec [16265.43 RPS]
+    >    tokio - 6.19 sec [16152.81 RPS] 
+    >    libuv - 4.42 sec [22622.09 RPS]
+    >  asyncio - 6.15 sec [16265.43 RPS]
 
