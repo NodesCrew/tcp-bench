@@ -1,6 +1,6 @@
 ---
 
-## Echo server
+## Small asyncio eventloop benchmarks (for Python 3.6+)
 
 - echo_server/server.py
 - echo_server/client.py
