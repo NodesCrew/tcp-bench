@@ -30,3 +30,7 @@
     >    libuv - 4.42 sec [22622.09 RPS]
     >  asyncio - 6.15 sec [16265.43 RPS]
 
+
+##### Python 3.5.3 (May 20 2017) [PyPy 5.7.1-beta0 with GCC 4.2.1 Compatible Apple LLVM 8.1.0 (clang-802.0.42)]
+    >  asyncio - 4.40 sec [22707.52 RPS]
+

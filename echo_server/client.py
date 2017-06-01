@@ -6,7 +6,12 @@ import time
 
 def benchmark(name, addr, messages):
     sock = socket(AF_INET, SOCK_STREAM)
-    sock.connect(addr)
+    try:
+        sock.connect(addr)
+    except ConnectionRefusedError:
+        print("Unable to connect to {} / {}".format(name, addr))
+        return
+
     t_start = time.time()
     for n in range(messages):
         sock.send(b'ping\n')
@@ -23,4 +28,4 @@ def benchmark(name, addr, messages):
 
 for i, name in enumerate(["tokio", "libuv", "asyncio"]):
     time.sleep(1.)
-    benchmark(name, ("localhost", 50000 + i), 100000)
+    benchmark(name, ("localhost", 50000 + i), 500000)

@@ -1,8 +1,6 @@
 # coding: utf-8
 import sys
 import time
-import tokio
-import uvloop
 import asyncio
 import logging
 import contextlib
@@ -11,6 +9,23 @@ import threading
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("asyncio echo_server")
+
+if sys.version_info.major < 3 or sys.version_info.minor < 5:
+    logger.fatal("Python 3.5+ required")
+    sys.exit(1)
+
+try:
+    import tokio
+except ImportError:
+    logger.warning("Unable to import tokio")
+    tokio = None
+
+
+try:
+    import uvloop
+except ImportError:
+    logger.warning("Unable to import uvloop")
+    uvloop = None
 
 
 async def client_handler(reader, writer):
@@ -29,6 +44,8 @@ async def client_handler(reader, writer):
 
 
 def run_server(module, port):
+    if module is None:
+        return
     loop = module.new_event_loop()
     coro = asyncio.start_server(client_handler, "127.0.0.1", port, loop=loop)
     server = loop.run_until_complete(coro)
