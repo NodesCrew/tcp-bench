@@ -1,19 +1,23 @@
 # coding: utf-8
 
-from socket import *
 import time
+import logging
+from socket import *
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("tcp-client")
 
 
-def benchmark(name, addr, messages):
+def benchmark(name, addr, rqty):
     sock = socket(AF_INET, SOCK_STREAM)
     try:
         sock.connect(addr)
     except ConnectionRefusedError:
-        print("Unable to connect to {} / {}".format(name, addr))
+        logger.warning("Unable to connect to %s / %s", name, addr)
         return
 
-    t_start = time.time()
-    for n in range(messages):
+    ts = time.time()
+    for n in range(rqty):
         sock.send(b'ping\n')
         resp = sock.recv(5)
         if resp != b'pong\n':
@@ -21,8 +25,8 @@ def benchmark(name, addr, messages):
     sock.send(b'exit\n')
     sock.close()
 
-    sec = time.time() - t_start
-    print("{:>9s} - {:.2f} sec [{:.2f} RPS]".format(name, sec, messages / sec))
+    sec = time.time() - ts
+    logger.info("{:>9s} - {:.2f}s [{:.2f} RPS]".format(name, sec, rqty / sec))
     time.sleep(1.)
 
 

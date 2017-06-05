@@ -1,40 +1,49 @@
 ---
 
-## Small asyncio eventloop and TCP frameworks benchmarks (for Python 3.6+)
-
-- echo_server/server.py
-- echo_server/server_trio.py
-- echo_server/client.py
-
-
+## TCP echo-servers benchmarking (for Python 3.6+)
 
 ## Installation
 
 - install Rust compiler (see https://github.com/PyO3/tokio)
-- install Trio library (see https://trio.readthedocs.io/en/latest/index.html or next step)
-- $ pip install -r requirement.txt
+- install requirements:
+
+```{r, engine='bash', install}
+mkvirtualenv tcp-bench -p python3.6
+pip install -r requirement.txt
+```
+
+
+## Connection handler pseudo-code
+
+```{r, engine='python', algo}
+while True:
+    data = socket.read(5)
+    if data == b"ping\n":
+        socket.write(b"pong\n")
+    else:
+        break
+```
+
 
 
 ## Run benchmark
     > Terminal 1: Run server first
-    $ python3 echo_server/server.py
+    $ python3 tcp-bench/server_asyncio.py
 
     > Terminal 2: Run Trio server
-    $ python3 echo_server/server_trio.py
+    $ python3 tcp-bench/server_trio.py
 
     > Terminal 3: Run client
-    $ python3 echo_server/client.py
+    $ python3 tcp-bench/client.py
 
 
-## Result of benchmark
+## Last results (MacBookPro, i7-6820HQ CPU @ 2.70GHz)
 
-##### Python 3.6.1 (default, Mar 30 2017) [GCC 4.2.1 Compatible Apple LLVM 8.1.0 (clang-802.0.38)] on darwin)
-    >    tokio - 30.84 sec [16210.16 RPS]
-    >    libuv - 21.81 sec [22923.41 RPS]
-    >  asyncio - 31.58 sec [15830.79 RPS]
-    >     trio - 25.72 sec [19439.32 RPS]
-
-##### Python 3.5.3 (May 20 2017) [PyPy 5.7.1-beta0 with GCC 4.2.1 Compatible Apple LLVM 8.1.0 (clang-802.0.42)]
-    >  asyncio - 21.38 sec [23389.53 RPS]
-    >     trio - 18.67 sec [26785.16 RPS]
-
+| Test    | Interpreter      | Time   | RPS      |
+|---------|------------------|--------|----------|
+| trio    | pypy 5.7.1-beta0 | 19.82s | 25230.85 |
+| asyncio | pypy 5.7.1-beta0 | 21.17s | 23618.00 |
+| libuv   | python3.6        | 22.24s | 22481.92 |
+| trio    | python3.6        | 26.46s | 18894.47 |
+| tokio   | python3.6        | 31.14s | 16054.65 |
+| asyncio | python3.6        | 32.98s | 15158.57 |

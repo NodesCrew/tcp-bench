@@ -8,7 +8,7 @@ import asyncio.streams
 import threading
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("asyncio echo_server")
+logger = logging.getLogger("tcp-server")
 
 if sys.version_info.major < 3 or sys.version_info.minor < 5:
     logger.fatal("Python 3.5+ required")
