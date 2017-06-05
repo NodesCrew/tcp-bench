@@ -26,6 +26,6 @@ def benchmark(name, addr, messages):
     time.sleep(1.)
 
 
-for i, name in enumerate(["tokio", "libuv", "asyncio"]):
+for i, name in enumerate(["tokio", "libuv", "asyncio", "trio"]):
     time.sleep(1.)
     benchmark(name, ("localhost", 50000 + i), 500000)
